@@ -8,7 +8,7 @@ void uart_init (uint32_t baud, bool double_speed);
 //sends frames with nine data bits
 void uart_send (unsigned char data);
 void uart_send (unsigned int data);
-
-void uart_read ();
+//reads frames 
+unsigned char uart_read();
 
 #endif
