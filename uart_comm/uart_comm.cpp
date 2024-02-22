@@ -1,6 +1,6 @@
 #include "uart_comm.h" 
 
-
+//THIS IS NOT FOR SPI mode
 
 void uart_init (uint32_t baud){
 	int32_t ubrr = (F_CPU / (16 * baud)) -1
@@ -64,10 +64,14 @@ void uart_send(unsigned char data){
 
 unsigned char uart_read (){
 
-	//Waiting for data to be received	
+	//Waiting for data to be received
+	//UCSRnA is the Control Status Register A
+	//- RXCn is set when there are unread data in the buffer
+	//  and cleared when the receive buffer is empty  
 	while ( !(UCSR0A & (1 << RXC0))){
 		;
 	}
 	//Get and return received data from buffer
+	//UDRn is the receive buffer
 	return UDR0;
 }
