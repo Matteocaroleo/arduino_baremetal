@@ -62,6 +62,26 @@ void uart_send(unsigned char data){
 	
 }
 
+void uart_send_string (unsigned char* data_array, int size){
+	for (int i = 0; i < size; i++){
+		// Wait for empty transmit buffer 
+		while ( !( UCSR0A & (1<<UDRE0))){
+		     ;
+		}
+		// Copy 9th bit to TXB8 
+		UCSR0B &= ~(1<<TXB80);
+		if ( data_array [i] & 0x0100 ){
+			UCSR0B |= (1<<TXB80);
+		}
+		// Put data into buffer, sends the data 
+		UDR0 = data_array [i];
+	}
+	return;	
+}
+
+
+
+
 unsigned char uart_read (){
 
 	//Waiting for data to be received
